@@ -1,0 +1,61 @@
+main{
+    font-family: Comic Sans MS;
+}
+
+main ::selection {
+    background-color: #d1bfad !important;
+    color: #f1f1f1 !important;
+}
+
+.user-detail{
+    width: 20vw;
+}
+
+.search:hover {
+    background-color: #d1bfad !important;
+    color: #f1f1f1 !important;
+}
+
+td:hover {
+    background-color: #dadada !important;
+}
+
+.icon-link{
+    width: 1.5vw;
+}
+
+a:active {
+    color: #b29b86;
+}
+
+a:link {
+    color: #b29b86;
+}
+  
+
+a:visited {
+    color: #b29b86;
+}
+
+a:hover {
+    color: #b29b86;
+}
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+background: #f1f1f1; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: #555; 
+}
