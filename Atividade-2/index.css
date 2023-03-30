@@ -11,6 +11,15 @@ main ::selection {
     width: 20vw;
 }
 
+.clear:hover {
+    background-color: #b7d1ad !important;
+    color: #f1f1f1 !important;
+}
+
+.search{
+    margin-right: 1vw;
+}
+
 .search:hover {
     background-color: #d1bfad !important;
     color: #f1f1f1 !important;
