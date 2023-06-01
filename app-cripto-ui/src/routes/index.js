@@ -1,13 +1,12 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+
+import { createRouter, createWebHistory  } from 'vue-router'
 import Home from './../views/Home.vue'
 import FormTransaction from './../components/FormTransaction.vue'
 import ListTransaction from './../components/ListTransaction.vue'
 
 
-Vue.use(VueRouter)
 
-  const routes = [
+const routes = [
   {
     path: '/',
     name: 'Home',
@@ -22,10 +21,16 @@ Vue.use(VueRouter)
     path: '/form-transaction',
     name: 'FormTransaction',
     component: FormTransaction
+  },
+  {
+    path: '/form-transaction/:id',
+    name: 'EditTransaction',
+    component: FormTransaction
   }
 ]
 
-const router = new VueRouter({
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
   routes
 })
 

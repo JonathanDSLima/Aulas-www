@@ -1,63 +1,40 @@
 <template>
   <div class="background">
-    <div class="container" v-if="listTransaction.length > 0">
+    <div v-if="listTransaction.length > 0">
       <v-table class="table">
         <thead>
           <tr>
-            <th class="text-left">
-              Nome
-            </th>
-            <th class="text-left">
-              Quantidade
-            </th>
-            <th class="text-left">
-              Preço de compra
-            </th>
-            <th class="text-left">
-              Preço de venda
-            </th>
-            <th class="text-left">
-              Data
-            </th>
-            <th class="text-left">
-              Tipo de ação
-            </th>
+            <th class="text-left">Nome</th>
+            <th class="text-left">Quantidade</th>
+            <th class="text-left">Preço de compra</th>
+            <th class="text-left">Preço de venda</th>
+            <th class="text-left">Data</th>
+            <th class="text-left">Tipo</th>
+            <th class="text-left">Ações</th>
           </tr>
         </thead>
 
         <tbody>
-          <tr
-            v-for="item in desserts"
-            :key="item.name"
-          >
-            <td>{{ item.name }}</td>
-            <td>{{ item.calories }}</td>
+          <tr v-for="item in listTransaction" :key="item.id">
+            <td>{{ item.coinName }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.priceBuy }}</td>
+            <td>{{ item.priceSeller }}</td>
+            <td>{{ item.data }}</td>
+            <td>{{ item.typeAction }}</td>
+            <td>
+              <v-button @click="edit(item.id)" class="action">Editar</v-button>
+              <v-button @click="delet(item.id)" class="action">Deletar</v-button>
+            </td>
           </tr>
         </tbody>
-        <v-table-toolbar>
-          <h1 class="v-title">Editoras</h1>
-        </v-table-toolbar>
-
-        <v-table-row slot="v-table-row" slot-scope="{ item }">
-          <v-table-cell v-label="Código" v-sort-by="id" v-numeric>{{
-            item.id
-          }}</v-table-cell>
-          <v-table-cell
-            v-label="Nome da Editora"
-            v-sort-by="id"
-            v-numeric
-            >{{ item.name }}</v-table-cell
-          >
-        </v-table-row>
       </v-table>
     </div>
     <div class="addCompany">
       <div class="alert" v-if="listTransaction.length == 0">
-        <p>Nenhuma editora cadastrada no sistema!</p>
+        <p>Nenhuma transação cadastrada no sistema!</p>
       </div>
-      <v-button class="add" v-on:click="navigateFormTransaction"
-        >Adicionar</v-button
-      >
+      <v-button v-if="!getId()"  @click="add()" class="add">Adicionar</v-button>
     </div>
   </div>
 </template>
@@ -68,54 +45,73 @@ import router from "./../routes";
 import CriptoService from "../services/CriptoService";
 
 export default {
-  name: "ListTransaction",
   data: () => ({
     listTransaction: [],
   }),
   methods: {
-    navigateFormTransaction() {
-      router.push("form-transaction");
-    },
     getAll() {
       CriptoService.getTransactions()
         .then((response) => {
-          console.log(response);
-
           let newListTransaction = response.data;
           this.listTransaction = newListTransaction;
         })
         .catch((error) => console.error(error));
     },
+    delet(id) {
+      console.log(id);
+      CriptoService.deleteTransaction(id)
+        .then((response) => {
+        })
+        .catch((error) => console.error(error));
+    },
+    edit(id) {
+      router.push("/form-transaction/" + id);
+    },
+    add() {
+      router.push("/form-transaction");
+    },
+    getId(){
+      let aux = this.$route.params.id;
+      return aux;
+    },
   },
-  run() {
+  mounted() {
     this.getAll();
   },
 };
 </script>
 
 <style scoped>
-.table {
-  width: 35vw;
-  text-align: center;
-}
 .background {
   display: flex;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
 }
-.container {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+.table {
+  width: 60vw;
+  text-align: start;
   margin: 2vw;
 }
 
 .add {
-  margin-top: 1vw;
   color: #ffffff;
   background-color: #2a9d8f;
   font-family: cursive;
   font-size: 0.8vw;
+  padding: 1vw;
+  border-radius: 1vw;
+  cursor: pointer;
+}
+
+.action {
+  color: #ffffff;
+  background-color: #2a9d8f;
+  font-family: cursive;
+  font-size: 0.5rem;
+  padding: 1vw;
+  border-radius: 1vw;
+  cursor: pointer;
+  margin-left: 0.3vw;
 }
 
 .addCompany {

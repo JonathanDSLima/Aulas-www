@@ -1,14 +1,22 @@
 <template>
   <div class="background">
     <div class="container">
-      <h2>App - Cripto</h2>
+      <h2 @click="home()">App - Cripto</h2>
     </div>
   </div>
 </template>
 
 <script>
+import Vue from "vue";
+import router from "./../routes";
+
 export default {
   name: "header",
+   methods: {
+    home() {
+      router.push("/list-transaction");
+    },
+  },
 };
 </script>
 
@@ -28,5 +36,6 @@ export default {
   width: 50vw;
   border-radius: 0.5vw;
   margin-top: 0.5vw;
+  cursor: pointer;
 }
 </style>

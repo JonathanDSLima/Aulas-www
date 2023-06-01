@@ -1,5 +1,5 @@
 <template>
-  <div class="container d-flex m-75">
+  <div class="display">
     <ListTransaction />
   </div>
 </template>
@@ -10,10 +10,16 @@ import ListTransaction from "../components/ListTransaction";
 export default {
   name: "Home",
   components: {
-    ListTransaction
+    ListTransaction,
   },
   methods: {},
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>

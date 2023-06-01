@@ -1,53 +1,94 @@
 <template>
-  <div class="container">
-    <h3>Nova Editora</h3>
+  <v-form v-model="valid">
+    <v-container>
+      <v-row>
+        <v-col cols="2" md="2">
+          <v-text-field label="Nome da moeda" v-model="coinName"></v-text-field>
+        </v-col>
 
-    <div class="form">
-      <md-field>
-        <label for="title" class="float-left">Nome da editora</label>
-        <md-input type="text" v-model="name" placeholder="Editora" />
-      </md-field>
-    </div>
+        <v-col cols="2" md="2">
+          <v-text-field label="Quantidade" v-model="quantity"></v-text-field>
+        </v-col>
 
-    <md-button v-on:click="submit" class="submit">Cadastrar</md-button>
-  </div>
+        <v-col cols="2" md="2">
+          <v-text-field label="Preço de venda" v-model="priceBuy"></v-text-field>
+        </v-col>
+
+        <v-col cols="2" md="2">
+          <v-text-field label="Preço de compra" v-model="priceSeller"></v-text-field>
+        </v-col>
+
+        <v-col cols="2" md="2">
+          <v-text-field label="Data" v-model="dat"></v-text-field>
+        </v-col>
+
+        <v-col cols="2" md="2">
+          <v-text-field label="Tipo de ação" v-model="typeAction"></v-text-field>
+        </v-col>
+      </v-row>
+      <v-button v-if="!getId()" v-on:click="submit" class="submit">Salvar</v-button>
+      <v-button v-else v-on:click="submit" class="submit">Alterar</v-button>
+    </v-container>
+  </v-form>
 </template>
 <script>
 import Vue from "vue";
 import router from "./../routes";
-import { MdCard, MdButton, MdField } from "vue-material/dist/components";
-import "vue-material/dist/vue-material.min.css";
-import "vue-material/dist/theme/default.css";
 import CriptoService from "../services/CriptoService";
 
-Vue.use(MdCard);
-Vue.use(MdButton);
-Vue.use(MdField);
-
 export default {
-  name: "FormTransaction",
+  props: {
+    data: {},
+  },
   data: () => ({
-    name: "",
+    coinName: "",
+    quantity: "",
+    priceBuy: "",
+    priceSeller: "",
+    dat: "",
+    typeAction: "",
   }),
   methods: {
     navigationBack() {
-      router.push("/");
+      router.go("/list-transaction");
+      router.push("/list-transaction");
     },
 
     buildTransaction() {
       return {
-        name: this.name
+        coinName: this.coinName,
+        quantity: this.quantity,
+        priceBuy: this.priceBuy,
+        priceSeller: this.priceSeller,
+        dat: this.dat,
+        typeAction: this.typeAction,
       };
     },
     submit() {
       let transaction = this.buildTransaction();
-      CriptoService.creat(transaction)
+      CriptoService.createTransaction(transaction)
         .then((response) => {
           this.navigationBack();
           console.log(response);
         })
         .catch((error) => console.error(error));
     },
+    getId() {
+      let aux = this.$route.params.id;
+      return aux;
+    },
+    submit() {
+      let transaction = this.buildTransaction();
+      CriptoService.createTransaction(transaction)
+        .then((response) => {
+          this.navigationBack();
+          console.log(response);
+        })
+        .catch((error) => console.error(error));
+    },
+  },
+  mounted() {
+    console.log("O id é: " + this.$route.params.id);
   },
 };
 </script>
@@ -64,9 +105,13 @@ export default {
 }
 
 .submit {
-  width: 5vw;
-  background-color: #2a9d8f;
   color: #ffffff;
+  background-color: #2a9d8f;
+  font-family: cursive;
+  font-size: 0.8vw;
+  padding: 1vw;
+  border-radius: 1vw;
+  cursor: pointer;
 }
 
 h3 {
